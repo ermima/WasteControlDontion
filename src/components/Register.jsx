@@ -2,11 +2,13 @@ import  { useState } from 'react';
 import { auth, database } from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { ref, set } from 'firebase/database';
-
+import Navbar from './Navbar3';
+import Footer from './Footer';
+import { useNavigate } from 'react-router-dom';
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const navigate = useNavigate();
   const handleRegister = (e) => {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
@@ -15,6 +17,7 @@ const Register = () => {
         set(ref(database, 'users/' + user.uid), {
           email: user.email
         });
+        navigate("/login")
         alert('User registered successfully!');
       })
       .catch((error) => {
@@ -23,8 +26,10 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-500 to-fuchsia-900">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
+    <>
+    <div className="flex items-center justify-center min-h-screen bg-cover bg-center" style={{ backgroundImage: "url('/backg4.png')" }}>
+     <Navbar/>
+      <div className="w-full max-w-md p-8 space-y-6 bg-white bg-opacity-65 rounded shadow-md">
         <h2 className="text-2xl font-bold text-center text-blue-700 font-serif">መመዝገቢያ</h2>
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
@@ -60,6 +65,8 @@ const Register = () => {
         </form>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

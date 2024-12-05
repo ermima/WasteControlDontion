@@ -19,9 +19,7 @@ import {
     // starbucks,
     // tesla,
     // shopify,
-    carrent,
-    jobit,
-    tripguide,
+    
     threejs,
   } from "../assets";
   
@@ -198,67 +196,67 @@ import {
   
   const projects = [
     {
-      name: "Car Rent",
+      name: "ያገለገሉ እቃቀችን መስጠት ይቻላል",
       description:
-        "Web-based platform that allows users to search, book, and manage car rentals from various providers, providing a convenient and efficient solution for transportation needs.",
+        "በዚህ ሲስተም ያእለገሉ እቅዎችን መለገስ እንደሚችሉ ያውቃሉ። አዉ ሁሉም ይቻላል ቅን ልብና መደጋገፍ ካለ በሁሉም መንገድ በጋራ ማደግ ይቻላል።",
       tags: [
         {
-          name: "react",
+          name: "የሪሶርስ ብክነትን እንቆጣጠር",
           color: "blue-text-gradient",
         },
         {
-          name: "mongodb",
+          name: "መደጋገፍ",
           color: "green-text-gradient",
         },
         {
-          name: "tailwind",
+          name: "ቅን ልብ",
           color: "pink-text-gradient",
         },
       ],
-      image: carrent,
-      source_code_link: "https://github.com/",
+      image: "Car.jpg",
+    //  source_code_link: "https://github.com/",
     },
     {
-      name: "Job IT",
+      name: "ባሉበት ሆነው ለተቸገሩት መድረስ ይቻላል",
       description:
-        "Web application that enables users to search for job openings, view estimated salary ranges for positions, and locate available jobs based on their current location.",
-      tags: [
+        "እርስዎ የትም መሄድ ሳይጠበቅብዎ፣ ቤትዎ ፣ ስራቦታዎ አልያም መኪናዎ ውስጥ እየሄዱ ባሉበት ሆነው በሲስተማችን ለተቸገሩት መድረስ ይችላሉ።",
+         tags: [
         {
-          name: "react",
+          name: "ቅንነት",
           color: "blue-text-gradient",
         },
         {
-          name: "restapi",
+          name: "ማህበራዊ ግዴታ",
           color: "green-text-gradient",
         },
         {
-          name: "scss",
+          name: "የህሊና እርካታ",
           color: "pink-text-gradient",
         },
       ],
-      image: jobit,
-      source_code_link: "https://github.com/",
+      image: "image.png",
+      //source_code_link: "https://github.com/",
     },
     {
-      name: "Trip Guide",
+      name: " ሊባክን የሚገባ ምግብ አይኑር!",
       description:
-        "A comprehensive travel booking platform that allows users to book flights, hotels, and rental cars, and offers curated recommendations for popular destinations.",
+        "ሆቴል ዉስጥ ፣ የተለያዩ ዝግጅቶች ላይ የሚባክኑ ምቦችን ከብክነት ለመታደኛ ለሚፈልጉ ሰወች ለመስጠት ሲስተማችን ምቹና ቀላል ነው። እንዲያውስ ምን ይጠብቃሉ። በሚባክኑ ምግቦች ህይወትን እንታደግ።",
       tags: [
         {
-          name: "nextjs",
+          name: "ሁሉንም መስጠት ይቻላል",
           color: "blue-text-gradient",
         },
         {
-          name: "supabase",
+          name: "ብክነትን መቆጣጠር",
           color: "green-text-gradient",
         },
         {
-          name: "css",
+          name: "ጥሩ ማሰብ",
           color: "pink-text-gradient",
         },
       ],
-      image: tripguide,
-      source_code_link: "https://github.com/",
+      image: "Food.jpg",
+//source_code_link: "https://github.com/",
     },
   ];
   

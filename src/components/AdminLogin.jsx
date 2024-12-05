@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-
+import Navbar3 from './Navbar3';
+import Footer from './Footer';
 const AdminLogin = () => {
   const [email, setEmail] = useState(''); // Set to empty string
   const [password, setPassword] = useState(''); // Set to empty string
@@ -46,9 +47,11 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-gray-500 to-fuchsia-900 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-blue-700">Admin Login</h2>
+    <>
+    <Navbar3/>
+      <div className="flex items-center justify-center min-h-screen bg-cover bg-center" style={{ backgroundImage: "url('/admin.png')" }}>
+      <div className="bg-white bg-opacity-35 font-extralight p-8 rounded-lg shadow-lg w-full max-w-lg">
+        <h2 className="text-2xl font-bold font-serif mb-6 text-blue-700">Admin Login</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleLogin}>
           <div className="mb-4">
@@ -68,6 +71,7 @@ const AdminLogin = () => {
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
               Password
             </label>
+            
             <input
               type="password"
               id="password"
@@ -88,6 +92,8 @@ const AdminLogin = () => {
         </form>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

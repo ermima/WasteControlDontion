@@ -26,7 +26,7 @@ const AdminDashboard = () => {
     const auth = getAuth();
     signOut(auth).then(() => {
       alert('Logged out successfully!');
-      navigate('/adminlogin'); // Redirect to the login page
+      navigate('/'); // Redirect to the login page
     }).catch((error) => {
       setError('Error logging out: ' + error.message);
     });

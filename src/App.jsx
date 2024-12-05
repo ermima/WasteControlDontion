@@ -1,6 +1,6 @@
 import  { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { About, Contact, Experience, Hero, Navbar } from './components';
+import { About, Contact, Experience, Hero,Works, Navbar,Footer } from './components';
 import Login from './components/Login'; // Import the Login component
 import Register from './components/Register'; // Import the Register component
 import Dashboard from './components/Dashboard'; // Import the UserDashboard component
@@ -14,7 +14,6 @@ const App = () => {
     <BrowserRouter>
       <div className='relative z-0 bg-primary'>
         <div className='bg-hero-pattern bg-cover bg-no-repeat bg-center'>
-          <Navbar />
           
         </div>
         <Routes>
@@ -26,11 +25,15 @@ const App = () => {
           <Route path="/home" element={<Hero />} /> {/* Add Hero route */}
           <Route path="/" element={
             <>
+            <Navbar />
               <Hero />
+              <Works/>
               <About />
+              
               <Experience />
               <div className='relative z-0'>
                 <Contact />
+                <Footer/>
               </div>
             </>
           } />
