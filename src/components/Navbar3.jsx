@@ -56,10 +56,6 @@ const Navbar = () => {
             <span className='sm:block hidden'>  | Waste Control and donation application   <span className="text-blue-500 underline">..HomePage</span> </span>
           </p>
         </Link>
-
-        
-       
-
        
       </div>
     </nav>

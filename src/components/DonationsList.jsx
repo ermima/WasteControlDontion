@@ -3,11 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { database, auth } from '../firebase';
-import { ref, onValue, remove, update } from 'firebase/database';
+import { ref, onValue, remove, update, set } from 'firebase/database'; // Import set function
 import { onAuthStateChanged } from 'firebase/auth';
 
-const DonationsList = () => {
-  const [donationsList, setDonationsList] = useState([]);
+const DonationsList = ({ donationsList, handleUpdateDonation }) => {
   const [editingIndex, setEditingIndex] = useState(null);
   const [editedDonation, setEditedDonation] = useState({
     item: '',
@@ -33,21 +32,6 @@ const DonationsList = () => {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    if (userId) {
-      const donationsRef = ref(database, 'donations');
-      onValue(donationsRef, (snapshot) => {
-        const data = snapshot.val();
-        const donationsArray = data
-          ? Object.keys(data)
-              .map((key) => ({ id: key, ...data[key] }))
-              .filter((donation) => donation.userId === userId)
-          : [];
-        setDonationsList(donationsArray);
-      });
-    }
-  }, [userId]);
-
   const handleEditClick = (index, donation) => {
     setEditingIndex(index);
     setEditedDonation(donation);
@@ -63,17 +47,8 @@ const DonationsList = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const donationRef = ref(database, `donations/${editedDonation.id}`);
-    update(donationRef, editedDonation)
-      .then(() => {
-        const updatedList = [...donationsList];
-        updatedList[editingIndex] = editedDonation;
-        setDonationsList(updatedList);
-        setEditingIndex(null);
-      })
-      .catch((error) => {
-        console.error('Error updating donation:', error);
-      });
+    handleUpdateDonation(editingIndex, editedDonation);
+    setEditingIndex(null);
   };
 
   const handleDeleteClick = (id) => {
@@ -85,7 +60,7 @@ const DonationsList = () => {
     const donationRef = ref(database, `donations/${deleteId}`);
     remove(donationRef)
       .then(() => {
-        setDonationsList((prevList) => prevList.filter((donation) => donation.id !== deleteId));
+        donationsList((prevList) => prevList.filter((donation) => donation.id !== deleteId));
         setShowConfirm(false);
         setDeleteId(null);
       })
@@ -192,10 +167,12 @@ const DonationsList = () => {
                 <p><strong>Location:</strong> {donation.location}</p>
                 <p><strong>Phone:</strong> {donation.phone}</p>
                 <p><strong>Description:</strong> {donation.description}</p>
+                <p className='text-blue-600'><strong>Checked status:</strong> {donation.checked ? '✔️✔️' : '❌'}</p>
                 <div className="flex space-x-2">
                   <button
                     onClick={() => handleEditClick(index, donation)}
-                    className="mt-2 bg-yellow-500 text-white py-1 px-3 rounded-lg hover:bg-yellow-600"
+                    className={`mt-2 py-1 px-3 rounded-lg ${donation.checked ? 'bg-yellow-400 bg-opacity-70 text-gray-700 text-opacity-40 cursor-not-allowed' : 'bg-yellow-500 text-white hover:bg-yellow-600'}`}
+                    disabled={donation.checked} // Disable edit button if checked
                   >
                     Edit
                   </button>
@@ -213,22 +190,22 @@ const DonationsList = () => {
       </div>
 
       {showConfirm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
           <div className="bg-white-100 bg-opacity-70 p-3 rounded-lg shadow-lg">
-            <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
-            <p className='font-serif font-bold text-black-100'><h2 className='text-red-700 font-serif  font-bold'>Warning: </h2>Are you sure you want to delete this donation?</p>
+            <h2 className="text-xl font-bold mb-4 text-red-700 ">Confirm Deletion</h2>
+            <p className='font-serif font-bold text-black-100'><h2 className='text-red-700 font-serif  font-bold underline'>Warning: </h2> መረጃውን እያጠፉ ነው! ይሂንን ከስጦታ ዝርዝር ለማጥፋት እርግጠኛ ነዎት?   </p>
             <div className="flex space-x-4 mt-4">
             <button
                 onClick={handleConfirmDelete}
                 className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
               >
-                Delete
+                አዎ
               </button>
               <button
                 onClick={handleCancelDelete}
                 className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
               >
-                Cancel
+                አልፈልግም
               </button>
             </div>
           </div>

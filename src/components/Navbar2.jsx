@@ -57,10 +57,6 @@ const Navbar = () => {
             <span className='sm:block hidden'>  | Waste Control and donation application   <span className="text-blue-700 underline">..HomePage</span> </span>
           </p>
         </Link>
-
-        
-        <h1 className='text-[18px]'>እንኳን ደህና መጡ። በተሳካ ሁኔታ ገብተዋል!</h1>
-
        
       </div>
     </nav>

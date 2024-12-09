@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, update } from 'firebase/database';
 import { database } from '../firebase';
 import { getAuth, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +30,11 @@ const AdminDashboard = () => {
     }).catch((error) => {
       setError('Error logging out: ' + error.message);
     });
+  };
+
+  const handleCheck = (donationId, checked) => {
+    const donationRef = ref(database, `donations/${donationId}`);
+    update(donationRef, { checked });
   };
 
   // Group donations by date
@@ -65,6 +70,14 @@ const AdminDashboard = () => {
                   <p><strong>Phone:</strong> {donation.phone}</p>
                   <p><strong>Description:</strong> {donation.description}</p>
                   <p><strong>User ID:</strong> {donation.userId}</p>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={donation.checked || false}
+                      onChange={(e) => handleCheck(donation.id, e.target.checked)}
+                    />
+                    Checked
+                  </label>
                 </div>
               ))}
             </div>

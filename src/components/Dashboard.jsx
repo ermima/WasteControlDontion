@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
-import { ref, set, onValue, update } from 'firebase/database';
+import { ref, onValue, update } from 'firebase/database';
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+import {  set } from 'firebase/database'; 
 import { database } from '../firebase';
 import { getAuth, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +12,7 @@ import ProfileSection from './ProfileSection';
 import DonationForm from './DonationForm';
 import DonationsList from './DonationsList';
 import Footer from './Footer';
+
 const Dashboard = ({ userId }) => {
   const [donation, setDonation] = useState({
     item: '',
@@ -32,7 +34,7 @@ const Dashboard = ({ userId }) => {
 
   useEffect(() => {
     if (!userId) {
-      setError('User ID is not defined. Please log in again.');
+      setError('የዕርስዎን መለያ ማግኘት አልተቻለም. እባክዎ እንደገና ይግቡ።');
       return;
     }
 
@@ -96,14 +98,14 @@ const Dashboard = ({ userId }) => {
     setError(''); // Clear any previous errors
 
     if (!userId) {
-      setError('User ID is not defined. Please log in again.');
+      setError('የዕርስዎን መለያ ማግኘት አልተቻለም. እባክዎ እንደገና ይግቡ።');
       return;
     }
 
     const donationRef = ref(database, 'donations/' + Date.now());
     set(donationRef, { ...donation, userId }) // Include userId in the donation data
       .then(() => {
-        alert('Donation submitted successfully!');
+        alert('በተሳካ ሁኔታ ማስገባት ችለዋል። እናመሰግናለን!');
         setDonation({
           item: '',
           type: '',
@@ -123,14 +125,14 @@ const Dashboard = ({ userId }) => {
     setError(''); // Clear any previous errors
 
     if (!userId) {
-      setError('User ID is not defined. Please log in again.');
+      setError('የዕርስዎን መለያ ማኘት አልተቻለም። እባክዎ እንደገና ይግቡ።');
       return;
     }
 
     const userRef = ref(database, `users/${userId}`);
     update(userRef, profile)
       .then(() => {
-        alert('Profile updated successfully!');
+        alert('በተሳካ ሁኔታ መቀየር ችለዋል!');
       })
       .catch((error) => {
         setError('Error updating profile: ' + error.message);
@@ -140,8 +142,8 @@ const Dashboard = ({ userId }) => {
   const handleLogout = () => {
     const auth = getAuth();
     signOut(auth).then(() => {
-      alert('Logged out successfully!');
-      navigate('/'); 
+      alert('በትክክል እየወጡ ነው!');
+      navigate('/');
     }).catch((error) => {
       setError('Error logging out: ' + error.message);
     });
@@ -152,7 +154,7 @@ const Dashboard = ({ userId }) => {
     const donationRef = ref(database, `donations/${donationId}`);
     update(donationRef, updatedDonation)
       .then(() => {
-        alert('Donation updated successfully!');
+        alert('ብተሳካ ሁኔታ አሻሽለዋል!');
         const updatedDonationsList = [...donationsList];
         updatedDonationsList[index] = { ...updatedDonation, id: donationId };
         setDonationsList(updatedDonationsList);
@@ -175,22 +177,29 @@ const Dashboard = ({ userId }) => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-primary flex items-center justify-center">
-      <Navbar2 /> 
+    <>
+      <Navbar2 />
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-gradient-to-r from-blue-500 to-slate-300  rounded-lg shadow-lg w-full relative mt-32"
+        className="min-h-screen bg-gradient-to-r from-blue-500 to-slate-300 p-5 mt-24 w-full"
       >
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={handleLogout}
-          className="absolute top-4 right-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
-        >
-          Logout
-        </motion.button>
+        <div className='mt-4 flex flex-row md:flex-col sm:flex-col sm:space-y-2 p-3 w-full space-y-4 md:space-y-3 md:space-x-10'>
+          <div className='mt-4'>
+            <h1 className='text-[32px]'>እንኳን ደህና መጡ። በተሳካ ሁኔታ ገብተዋል!</h1>
+          </div>
+          <div>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleLogout}
+              className="absolute top-4 right-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+            >
+              Logout
+            </motion.button>
+          </div>
+        </div>
         <ProfileSection
           profile={profile}
           handleProfileChange={handleProfileChange}
@@ -199,7 +208,7 @@ const Dashboard = ({ userId }) => {
           handleDeleteAccount={handleDeleteAccount}
           error={error}
         />
-        <div className='mt-4 flex flex-col md:flex-row p-3 w-full space-y-4 md:space-y-0 md:space-x-10'>
+               <div className='mt-4 flex flex-col md:flex-row p-3 w-full space-y-4 md:space-y-0 md:space-x-10'>
           <DonationForm
             donation={donation}
             handleChange={handleChange}
@@ -210,11 +219,9 @@ const Dashboard = ({ userId }) => {
             handleUpdateDonation={handleUpdateDonation}
           />
         </div>
-       <div>
-         <Footer/>
-       </div>
       </motion.div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

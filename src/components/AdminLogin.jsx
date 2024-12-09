@@ -12,8 +12,8 @@ const AdminLogin = () => {
 
   useEffect(() => {
     const auth = getAuth();
-    const adminEmail = 'ermiasantigegn21@gmail.com';
-    const adminPassword = '212121';
+    const adminEmail = 'chanyalew21@gmail.com';
+    const adminPassword = '121212';
     createUserWithEmailAndPassword(auth, adminEmail, adminPassword)
       .then((userCredential) => {
         // Successfully registered
@@ -29,7 +29,7 @@ const AdminLogin = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     const auth = getAuth();
-    const adminEmail = 'ermiasantigegn21@gmail.com';
+    const adminEmail = 'chanyalew21@gmail.com';
 
     if (email !== adminEmail) {
       setError("It's not admin email");

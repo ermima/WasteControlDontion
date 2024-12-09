@@ -2,9 +2,9 @@
 
 // firebase.jsx
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup,sendEmailVerification } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
-
+import { getStorage } from 'firebase/storage';
 const firebaseConfig = {
   apiKey: "AIzaSyDyeASJARAgE5QW8kpoils8rZdMnEUkmOM",
   authDomain: "to-do-list-b06ef.firebaseapp.com",
@@ -19,5 +19,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
+const provider = new GoogleAuthProvider();
+const storage = getStorage(app);
 
-export { auth, database };
+export { auth,provider, signInWithPopup, sendEmailVerification,storage, database };
