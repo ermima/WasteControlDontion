@@ -3,6 +3,8 @@ export const content = ["./src/**/*.{js,jsx}"];
 export const mode = "jit";
 export const theme = {
   extend: {
+    maxHeight: { '150': '38rem',
+    }, 
     colors: {
       primary: "#050816",
       secondary: "#aaa6c3",

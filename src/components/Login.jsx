@@ -19,17 +19,17 @@ const Login = ({ setUserId }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsLoading(false);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        if (user.emailVerified) {
+        //if (user.emailVerified) {
           setUserId(user.uid); // Set the userId
           navigate('/dashboard');
-        } else {
-          setError('Please verify your email before logging in.');
-          auth.signOut();
-        }
+       // } else {
+         // setError('Please verify your email before logging in.');
+          //auth.signOut();
+        //}
         setIsLoading(false);
       })
       .catch((error) => {
@@ -61,7 +61,7 @@ const Login = ({ setUserId }) => {
             set(ref(database, 'users/' + user.uid), {
               email: user.email
             });
-            alert('Verification email sent! Please check your email to verify your account.');
+            alert('Registered');
             setShowRegister(false);
           })
           .catch((error) => {
@@ -109,7 +109,7 @@ const Login = ({ setUserId }) => {
                 onChange={(e) => setResetEmail(e.target.value)}
                 placeholder="ኢሜል"
                 required
-                className="w-full px-3 py-2 mt-4 border rounded "
+                className="w-full px-3 py-2 mt-4 border border-blue-600 text-black-100 rounded bg-transparent "
               />
               <button type="submit" className="w-full px-3 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-700">
                 የይለፍ ቃል ይቀይሩ
@@ -130,7 +130,7 @@ const Login = ({ setUserId }) => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="ኢሜል"
                 required
-                className="w-full px-3 py-2 mt-4 border border-blue-600  rounded bg-transparent" 
+                className="w-full px-3 py-2 mt-4 border text-black-100 border-blue-600  rounded bg-transparent" 
               />
               <input
                 type="password"
@@ -138,7 +138,7 @@ const Login = ({ setUserId }) => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="የይለፍ ቃል"
                 required
-                className="w-full px-3 py-2 mt-4 border border-blue-600  rounded bg-transparent"
+                className="w-full px-3 py-2 mt-4 text-black-100 border border-blue-600  rounded bg-transparent"
               />
               <button type="submit" className="w-full px-3 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-700" disabled={isLoading}>
                 {isLoading ? 'Registering...' : 'ይመዝገቡ'}
@@ -160,7 +160,7 @@ const Login = ({ setUserId }) => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="ኢሜል"
                 required
-                className="w-full px-3 py-2 mt-4 border border-blue-600  rounded bg-transparent"
+                className="w-full px-3 py-2 mt-4 text-black-100 border border-blue-600  rounded bg-transparent"
               />
               <input
                 type="password"
@@ -168,7 +168,7 @@ const Login = ({ setUserId }) => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="የይለፍ ቃል"
                 required
-                className="w-full px-3 py-2 mt-4 border border-blue-600  rounded bg-transparent"
+                className="w-full px-3 py-2 mt-4 text-black-100 border border-blue-600  rounded bg-transparent"
               />
               <button type="submit" className="w-full px-3 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-700" disabled={isLoading}>
                 {isLoading ? 'Logging in...' : 'ይግቡ'}

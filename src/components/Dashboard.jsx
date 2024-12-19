@@ -2,11 +2,12 @@
 import { useState, useEffect } from 'react';
 import { ref, onValue, update } from 'firebase/database';
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
-import {  set } from 'firebase/database'; 
+import { set } from 'firebase/database'; 
 import { database } from '../firebase';
 import { getAuth, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { FaBell } from 'react-icons/fa';
 import Navbar2 from './Navbar2';
 import ProfileSection from './ProfileSection';
 import DonationForm from './DonationForm';
@@ -20,7 +21,8 @@ const Dashboard = ({ userId }) => {
     amount: '',
     location: '',
     phone: '',
-    description: ''
+    description: '',
+    date: new Date().toISOString() // Ensure date is stored in ISO format
   });
 
   const [profile, setProfile] = useState({
@@ -29,6 +31,8 @@ const Dashboard = ({ userId }) => {
   });
 
   const [donationsList, setDonationsList] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate(); // Use useNavigate instead of useHistory
 
@@ -56,6 +60,13 @@ const Dashboard = ({ userId }) => {
       // Filter donations to only include those donated by the current user
       const userDonations = donationsArray.filter(donation => donation.userId === userId);
       setDonationsList(userDonations);
+    });
+
+    const notificationsRef = ref(database, `notifications/${userId}`);
+    onValue(notificationsRef, (snapshot) => {
+      const data = snapshot.val();
+      const notificationsArray = data ? Object.entries(data).map(([key, value]) => ({ id: key, ...value })) : [];
+      setNotifications(notificationsArray);
     });
   }, [userId]);
 
@@ -112,7 +123,8 @@ const Dashboard = ({ userId }) => {
           amount: '',
           location: '',
           phone: '',
-          description: ''
+          description: '',
+          date: new Date().toISOString() // Reset date to current date
         });
       })
       .catch((error) => {
@@ -176,6 +188,12 @@ const Dashboard = ({ userId }) => {
       });
   };
 
+  const toggleNotifications = () => {
+    setShowNotifications(!showNotifications);
+  };
+
+  const unreadNotifications = notifications.filter(notification => !notification.read).length > 0;
+
   return (
     <>
       <Navbar2 />
@@ -186,11 +204,7 @@ const Dashboard = ({ userId }) => {
         className="min-h-screen bg-gradient-to-r from-blue-500 to-slate-300 p-5 mt-24 w-full"
       >
         <div className='mt-4 flex flex-row md:flex-col sm:flex-col sm:space-y-2 p-3 w-full space-y-4 md:space-y-3 md:space-x-10'>
-          <div className='mt-4'>
-            <h1 className='text-[32px]'>እንኳን ደህና መጡ። በተሳካ ሁኔታ ገብተዋል!</h1>
-          </div>
-          <div>
-            <motion.button
+        <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={handleLogout}
@@ -198,6 +212,40 @@ const Dashboard = ({ userId }) => {
             >
               Logout
             </motion.button>
+            <div className='absolute top-4 right-32'>
+  <FaBell
+    className={`text-2xl cursor-pointer ${unreadNotifications ? 'text-red-500' : 'text-gray-500'}`}
+    onClick={toggleNotifications}    />
+  {showNotifications && (
+    <div className='fixed inset-0 flex items-center justify-center z-50'>
+      <div className='absolute inset-0 bg-black opacity-50'></div>
+      <div className='bg-white border border-gray-300 rounded-lg shadow-lg p-4 z-50'>
+        <h2 className='text-xl font-bold mb-2 text-blue-700'>Notifications</h2>
+        <div className='max-h-48 overflow-y-auto'>
+          {notifications.map((notification, index) => (
+            <div key={index} className='bg-gray-100 text-black-100 p-2 mb-2 rounded-lg shadow'>
+              <p>{notification.message}</p>
+              <p className='text-sm text-gray-500'>{new Date(notification.timestamp).toLocaleString()}</p>
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={toggleNotifications}
+          className='mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600'
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  )}
+</div>
+
+        <div className='relative '>
+            
+          <div className='mt-12'>
+            <h1 className='text-[32px]'>እንኳን ደህና መጡ። በተሳካ ሁኔታ ገብተዋል!</h1>
+          </div>
+          
           </div>
         </div>
         <ProfileSection
@@ -208,7 +256,7 @@ const Dashboard = ({ userId }) => {
           handleDeleteAccount={handleDeleteAccount}
           error={error}
         />
-               <div className='mt-4 flex flex-col md:flex-row p-3 w-full space-y-4 md:space-y-0 md:space-x-10'>
+        <div className='mt-4 flex flex-col md:flex-row p-3 w-full space-y-4 md:space-y-0 md:space-x-10'>
           <DonationForm
             donation={donation}
             handleChange={handleChange}

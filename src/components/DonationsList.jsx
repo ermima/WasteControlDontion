@@ -14,7 +14,8 @@ const DonationsList = ({ donationsList, handleUpdateDonation }) => {
     amount: '',
     location: '',
     phone: '',
-    description: ''
+    description: '',
+    date: new Date().toISOString()
   });
   const [showConfirm, setShowConfirm] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
@@ -82,9 +83,9 @@ const DonationsList = ({ donationsList, handleUpdateDonation }) => {
       className='flex flex-col m-4 bg-gradient-to-r from-blue-400 to-blue-100 p-3 w-full md:w-96 rounded-lg shadow-lg'
     >
       <h2 className="text-2xl font-bold mt-6 mb-4 text-blue-700">Donated Items</h2>
-      <div className="max-h-64 m-4 overflow-y-auto text-black-80 max-w-96">
+      <div className=" m-4 overflow-y-auto text-black-80 max-w-96 max-h-150">
         {donationsList.map((donation, index) => (
-          <div key={index} className="bg-gray-100 p-4 mb-2 rounded-lg shadow text-black-100">
+          <div key={index} className="bg-gray-100 p-4 mb-2 rounded-lg  shadow text-black-100">
             {editingIndex === index ? (
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
@@ -167,7 +168,9 @@ const DonationsList = ({ donationsList, handleUpdateDonation }) => {
                 <p><strong>Location:</strong> {donation.location}</p>
                 <p><strong>Phone:</strong> {donation.phone}</p>
                 <p><strong>Description:</strong> {donation.description}</p>
+                <p><strong>Date:</strong> {new Date(donation.date).toLocaleDateString()}</p>
                 <p className='text-blue-600'><strong>Checked status:</strong> {donation.checked ? '✔️✔️' : '❌'}</p>
+                {donation.checked && <p className='text-green-600'><strong>Thank you for your donation!</strong></p>}
                 <div className="flex space-x-2">
                   <button
                     onClick={() => handleEditClick(index, donation)}
@@ -188,14 +191,16 @@ const DonationsList = ({ donationsList, handleUpdateDonation }) => {
           </div>
         ))}
       </div>
-
       {showConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
           <div className="bg-white-100 bg-opacity-70 p-3 rounded-lg shadow-lg">
             <h2 className="text-xl font-bold mb-4 text-red-700 ">Confirm Deletion</h2>
-            <p className='font-serif font-bold text-black-100'><h2 className='text-red-700 font-serif  font-bold underline'>Warning: </h2> መረጃውን እያጠፉ ነው! ይሂንን ከስጦታ ዝርዝር ለማጥፋት እርግጠኛ ነዎት?   </p>
+            <p className='font-serif font-bold text-black-100'>
+              <h2 className='text-red-700 font-serif font-bold underline'>Warning: </h2>
+              መረጃውን እያጠፉ ነው! ይሂንን ከስጦታ ዝርዝር ለማጥፋት እርግጠኛ ነዎት?
+            </p>
             <div className="flex space-x-4 mt-4">
-            <button
+              <button
                 onClick={handleConfirmDelete}
                 className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
               >

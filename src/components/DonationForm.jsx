@@ -1,9 +1,18 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const DonationForm = ({ donation, handleChange, handleSubmit }) => {
+  const [currentDate, setCurrentDate] = useState('');
+
+  useEffect(() => {
+    // Set the current date in YYYY-MM-DD format
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    setCurrentDate(formattedDate);
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -77,6 +86,17 @@ const DonationForm = ({ donation, handleChange, handleSubmit }) => {
             className="w-full px-3 py-2 border rounded-lg text-primary bg-transparent"
             required
           ></textarea>
+        </div>
+        <div className="mb-4 max-w-96">
+          <label className="block text-gray-700">ቀን</label>
+          <input
+            type="date"
+            name="date"
+            value={currentDate}
+            readOnly // Make the date field non-editable
+            className="w-full px-3 py-2 border rounded-lg text-primary bg-transparent"
+            required
+          />
         </div>
         <button
           type="submit"
