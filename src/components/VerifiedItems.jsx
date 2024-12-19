@@ -12,7 +12,6 @@ const VerifiedDonatedItems = () => {
   const [donationsList, setDonationsList] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [report, setReport] = useState('');
-  const [thankYouMessages, setThankYouMessages] = useState({});
   const [sentMessages, setSentMessages] = useState({});
   const navigate = useNavigate();
 
@@ -63,7 +62,7 @@ const VerifiedDonatedItems = () => {
   const sendThankYouMessage = (donationId, userId) => {
     const notificationRef = push(ref(database, `notifications/${userId}`));
     set(notificationRef, {
-      message: thankYouMessages[donationId],
+      message: "ስላደረጉት መልካም ነገር ምስጋናችን ከልብ ነው። በመልካም ተግባርዎ እንዲቀጥሉ እናበረታታለም። እናመሰናለን።",
       timestamp: Date.now()
     }).then(() => {
       alert('Thank you message sent successfully!');
@@ -73,10 +72,6 @@ const VerifiedDonatedItems = () => {
     }).catch((error) => {
       alert('Error sending thank you message: ' + error.message);
     });
-  };
-
-  const handleThankYouMessageChange = (donationId, message) => {
-    setThankYouMessages(prevState => ({ ...prevState, [donationId]: message }));
   };
 
   const toggleSidebar = () => {
@@ -123,10 +118,9 @@ const VerifiedDonatedItems = () => {
                   <div className="mt-4">
                     <h3 className="text-xl font-bold mb-2 text-blue-700">Thank You Message</h3>
                     <textarea
-                      value={thankYouMessages[donation.id] || ''}
-                      onChange={(e) => handleThankYouMessageChange(donation.id, e.target.value)}
+                      value="ስላደረጉት መልካም ነገር ምስጋናችን ከልብ ነው። በመልካም ተግባርዎ እንዲቀጥሉ እናበረታታለም። እናመሰናለን።"
+                      readOnly
                       className="w-full p-2 border rounded-lg text-white-100"
-                      placeholder=" ስላደረጉት መልካም ነገር ምስጋናችን ከልብ ነው። በመልካም ተግባርዎ እንዲቀጥሉ እናበረታታለም። እናመሰናለን። "
                     />
                   </div>
                   <button

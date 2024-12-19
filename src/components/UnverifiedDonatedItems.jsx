@@ -38,7 +38,7 @@ const UnverifiedDonatedItems = () => {
         setDonationsList(prevList => prevList.map(donation => 
           donation.id === donationId ? { ...donation, checked: true } : donation
         ));
-      }, 3000);
+      }, 30000);
     });
     setConfirming(null);
   };

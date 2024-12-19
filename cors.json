@@ -1,9 +1,7 @@
 [
-    {
-      "origin": ["http://localhost:5173"],
-      "method": ["GET", "POST", "PUT", "DELETE", "HEAD"],
-      "maxAgeSeconds": 3600,
-      "responseHeader": ["Content-Type", "Authorization"]
-    }
-  ]
-  
+  {
+    "origin": ["https://to-do-list-b06ef.web.app"],
+    "method": ["GET", "POST", "PUT", "DELETE"],
+    "maxAgeSeconds": 3600
+  }
+]
