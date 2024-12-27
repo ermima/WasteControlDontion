@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 
 const ProfileSection = ({ profile, handleProfileChange, handleProfilePictureChange, handleProfileSubmit, handleDeleteAccount, error }) => {
@@ -10,14 +10,14 @@ const ProfileSection = ({ profile, handleProfileChange, handleProfilePictureChan
   const settingsRef = useRef(null);
   const editProfileRef = useRef(null);
 
-  const toggleEdit = () => {
+  const toggleEdit = useCallback(() => {
     setIsEditing(!isEditing);
-  };
+  }, [isEditing]);
 
-  const toggleDelete = () => {
+  const toggleDelete = useCallback(() => {
     setIsDeleting(!isDeleting);
     setConfirmDelete(false); // Reset confirm delete state
-  };
+  }, [isDeleting]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -69,7 +69,7 @@ const ProfileSection = ({ profile, handleProfileChange, handleProfilePictureChan
                 <span className="text-blue-800 font-bold font-serif">Profile</span>
               </div>
             )}
-            <label className="absolute bottom-0 right-0 bg-blue-500 text-white p-1 rounded-full cursor-pointer">
+            <label className="absolute bottom-0 right-0 bg-blue-500 text-white p-1 rounded-full cursor-pointer" aria-label="Upload Profile Picture">
               <span className="text-xl">+</span>
               <input
                 type="file"
@@ -88,6 +88,7 @@ const ProfileSection = ({ profile, handleProfileChange, handleProfilePictureChan
           whileTap={{ scale: 0.9 }}
           onClick={toggleDelete}
           className="text-2xl cursor-pointer text-primary mt-4 md:mt-0"
+          aria-label="Open Settings"
         >
           &#9881; Settings
         </motion.span>
@@ -98,6 +99,7 @@ const ProfileSection = ({ profile, handleProfileChange, handleProfilePictureChan
         href="#"
         onClick={toggleEdit}
         className="w-full md:w-auto max-w-40 text-2xl font-bold mb-3 text-primary underline text-center md:text-left"
+        aria-label="Edit Profile"
       >
         Edit Profile
       </motion.a>
@@ -114,6 +116,7 @@ const ProfileSection = ({ profile, handleProfileChange, handleProfilePictureChan
                 onChange={handleProfileChange}
                 className="w-full px-3 py-2 border rounded-lg"
                 required
+                aria-label="Email"
               />
             </div>
             <motion.button
@@ -138,6 +141,7 @@ const ProfileSection = ({ profile, handleProfileChange, handleProfilePictureChan
                 whileTap={{ scale: 0.9 }}
                 onClick={confirmDeleteAccount}
                 className="mt-2 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+                aria-label="Confirm Delete Account"
               >
                 Confirm Delete
               </motion.button>
@@ -148,6 +152,7 @@ const ProfileSection = ({ profile, handleProfileChange, handleProfilePictureChan
               whileTap={{ scale: 0.9 }}
               onClick={handleDelete}
               className="mt-2 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+              aria-label="Delete Account"
             >
               Delete Account
             </motion.button>

@@ -62,7 +62,8 @@ const Login = ({ setUserId }) => {
               email: user.email
             });
             alert('Registered');
-            setShowRegister(false);
+            
+            setShowRegister(true);
           })
           .catch((error) => {
             setError(error.message);

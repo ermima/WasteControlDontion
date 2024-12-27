@@ -68,8 +68,8 @@ const GenerateReports = () => {
         </header>
         
         <div className="pt-16 flex items-center justify-center">
-          <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md relative">
-            <button onClick={handleLogout} className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 ml-4">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full  max-w-screen-lg relative">
+            <button onClick={handleLogout} className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 ml-4 flex float-end">
               Logout
             </button>
             <h2 className="text-2xl font-bold mb-4">Generate Reports</h2>

@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { ref, set, push } from 'firebase/database';
-import DonationForm from './DonationForm'; // Adjust the import based on your file structure
-import { database } from './firebase'; // Adjust the import based on your Firebase setup
+import DonationForm from './DonationForm'; 
+import { database } from './firebase'; 
 
 const DonationPage = () => {
   const [donation, setDonation] = useState({

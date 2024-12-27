@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { ref, onValue, update } from 'firebase/database';
 import { database } from '../firebase';
 import Sidebar from './Sidebar';
-
+import { useNavigate } from 'react-router-dom';
 const UnverifiedDonatedItems = () => {
   const [donationsList, setDonationsList] = useState([]);
   const [verifiedMessage, setVerifiedMessage] = useState(null);
@@ -49,6 +49,10 @@ const UnverifiedDonatedItems = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const handleLogout = () => {
+    // Perform any logout logic here if needed
+    navigate('/');
+  };
   return (
     <div className="min-h-screen flex">
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
@@ -60,7 +64,10 @@ const UnverifiedDonatedItems = () => {
           </button>
         </header>
         <div className="pt-16 flex items-center justify-center">
-          <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md relative ">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full  max-w-screen-lg relative ">
+          <button onClick={handleLogout} className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 flex float-end ml-auto">
+              Logout
+            </button>
             <h2 className="text-2xl font-bold mt-6 mb-4 text-blue-700">Unverified Donated Items</h2>
             <div className="max-h-96 overflow-y-auto text-black-80">
               {unverifiedDonations.map((donation, index) => (
